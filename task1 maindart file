@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const ReelApp());
+}
+
+class ReelApp extends StatelessWidget {
+  const ReelApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Reel Recommender',
+      home: const HelloScreen(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class HelloScreen extends StatelessWidget {
+  const HelloScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Reel Recommender')),
+      body: const Center(
+        child: Text(
+          'Hello, Reel Recommender!',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+        ),
+      ),
+    );
+  }
+}
