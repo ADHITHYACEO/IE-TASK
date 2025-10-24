@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: BackendTestScreen(),
+    );
+  }
+}
+
+class BackendTestScreen extends StatefulWidget {
+  @override
+  _BackendTestScreenState createState() => _BackendTestScreenState();
+}
+
+class _BackendTestScreenState extends State<BackendTestScreen> {
+  String responseText = "No data yet";
+
+  Future<void> fetchData() async {
+    // ⚠️ If using an emulator:
+    // Android emulator: use 10.0.2.2 instead of 127.0.0.1
+    // iOS simulator: 127.0.0.1 is fine
+    // Real phone: use your PC's local IP address
+    final url = Uri.parse("http://127.0.0.1:8000/");
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        responseText = jsonDecode(response.body).toString();
+      });
+    } else {
+      setState(() {
+        responseText = "Error: ${response.statusCode}";
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Reel Recommender")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(responseText),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: fetchData,
+              child: Text("Fetch from Backend"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
